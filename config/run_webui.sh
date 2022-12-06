@@ -8,4 +8,4 @@ until mongo  --host 192.168.26.5 --eval "print(\"waited for connection\")" 2>&1 
 
 echo "Launching WebUI..."
 
-npm run start --prefix /open5gs/webui
+npm run dev start --prefix /open5gs/webui

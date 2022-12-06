@@ -16,13 +16,15 @@ RUN apt-get install --no-install-recommends -yq \
      libconfig++-dev \
      curl \
      iputils-ping \
-     unzip
+     unzip \
+     python-talloc-dev
 WORKDIR /root
 
 RUN apt-get --no-install-recommends -qy install build-essential git ca-certificates
-# faux_rf being active, we clamp it to a specific git commit
-RUN git clone https://github.com/jgiovatto/srsLTE.git && cd srsLTE && git checkout 73865d5 
+RUN git clone https://github.com/aahad91/srsLTE.git && cd srsLTE && git checkout faux_rf
 
+RUN mkdir /config
+COPY enb.conf.fauxrf /config/enb.conf.fauxrf
 
 RUN mkdir -p /root/srsLTE/build
 
@@ -32,10 +34,8 @@ RUN make -j `nproc` install
 RUN ldconfig
 
 WORKDIR /root
-RUN mkdir /config
-
 # eNB specific files
-RUN cp /root/srsLTE/srsenb/enb.conf.fauxrf.example /config/enb.conf.fauxrf
+#RUN cp /root/srsLTE/srsenb/enb.conf.fauxrf.example /config/enb.conf.fauxrf
 RUN cp /root/srsLTE/srsenb/drb.conf.example /config/drb.conf
 RUN cp /root/srsLTE/srsenb/enb.conf.example /config/enb.conf
 RUN cp /root/srsLTE/srsenb/rr.conf.example /config/rr.conf

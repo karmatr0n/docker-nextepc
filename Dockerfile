@@ -28,8 +28,17 @@ RUN apt-get update && \
         iproute2 \
         ca-certificates \
         netbase \
+        python-talloc-dev \
+        libtalloc-dev \
+        wget \
+        gpg \
+        libnghttp2-dev \
         pkg-config && \
-    apt-get clean
+        apt-get clean
+RUN wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | gpg --dearmor - | tee /usr/share/keyrings/kitware-archive-keyring.gpg >/dev/null
+RUN echo 'deb [signed-by=/usr/share/keyrings/kitware-archive-keyring.gpg] https://apt.kitware.com/ubuntu/ bionic main' | tee /etc/apt/sources.list.d/kitware.list >/dev/null
+RUN apt-get update && apt-get remove -y cmake && apt-get install -y cmake
+
 RUN python3 -m pip install meson
 RUN git clone https://github.com/open5gs/open5gs.git
 WORKDIR /open5gs
@@ -37,7 +46,7 @@ RUN meson build && ninja -C build install
 WORKDIR /
 
 RUN apt-get -y install curl gnupg
-RUN curl -sL https://deb.nodesource.com/setup_10.x | bash -
+RUN curl -sL https://deb.nodesource.com/setup_14.x | bash -
 RUN apt-get -y install nodejs
 
 RUN cd /open5gs/webui && npm install && npm run build

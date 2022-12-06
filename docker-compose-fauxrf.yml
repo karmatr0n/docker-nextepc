@@ -94,9 +94,10 @@ services:
      build: ./
      container_name: sgw
      hostname: sgw
-     entrypoint:
-      - "/bin/sh"
-      - "/usr/local/etc/run_sgw.sh"
+     command: sh -c "tail -f /dev/null"
+       # entrypoint:
+       # - "/bin/sh"
+       # - "/usr/local/etc/run_sgw.sh"
      volumes:
       - "./config:/usr/local/etc:z"
      networks:
@@ -108,10 +109,10 @@ services:
      container_name: pgw
      hostname: pgw
      entrypoint:
-      - "/bin/sh"
-      - "/usr/local/etc/run_pgw.sh"
+       - "/bin/sh"
+       - "/usr/local/etc/run_pgw.sh"
      volumes:
-      - "./config:/usr/local/etc:z"
+      - ./config:/usr/local/etc
      cap_add:
        -  NET_ADMIN
      devices:

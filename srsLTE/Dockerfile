@@ -18,11 +18,12 @@ RUN apt-get install --no-install-recommends -yq \
      iputils-ping \
      unzip \
      libzmq3-dev \
-     libpcsclite-dev
+     libpcsclite-dev \
+     python-talloc-dev
 WORKDIR /root
 
 RUN apt-get --no-install-recommends -qy install build-essential git ca-certificates
-RUN git clone https://github.com/srsLTE/srsLTE.git && cd srsLTE 
+RUN git clone https://github.com/aahad91/srsLTE.git && cd srsLTE
 
 RUN mkdir -p /root/srsLTE/build
 

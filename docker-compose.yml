@@ -47,9 +47,10 @@ services:
       - "3000:3000"
     volumes:
         - "./config:/usr/local/etc:z"
-    entrypoint:
-      - "/bin/sh"
-      - "/usr/local/etc/run_webui.sh"
+    command: sh -c "tail -f /dev/null"
+      #entrypoint:
+      #- "/bin/sh"
+      #- "/usr/local/etc/run_webui.sh"
     networks:
       core_network:
         ipv4_address: 192.168.26.6
